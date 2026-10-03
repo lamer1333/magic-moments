@@ -1,0 +1,7 @@
+.DS_Store
+.claude/
+_ref/
+_versions/
+assets/
+magic-moments-landing.html
+serve.ps1
