@@ -529,12 +529,42 @@ body.menu-open .menu-foot{transition-delay:540ms}
 .values{text-align:center;color:var(--wine-700);padding:0 var(--pad) clamp(56px,9vh,96px);font-size:clamp(1rem,1.3vw,1.12rem)}
 .values .label{display:block;color:var(--wine-500);margin-bottom:12px}
 
-/* основательница */
+/* наша история: портрет + четыре главы, полный текст раскрывается на месте */
 .founder{background:var(--ivory);color:var(--wine-700)}
 .founder .split-img img{object-position:50% 22%}
-.founder .sub+.sub{margin-top:16px}
-.founder-quote{margin-top:clamp(24px,4vh,36px);padding-left:20px;border-left:1px solid var(--wine-500);font-size:clamp(1.15rem,1.6vw,1.4rem);font-style:italic;font-weight:300;color:var(--wine-700);max-width:32ch}
+.founder .story-lead{margin-top:28px;max-width:32ch;font-size:clamp(1.2rem,1.7vw,1.5rem);font-weight:300;line-height:1.35;letter-spacing:-.02em;color:var(--wine-700)}
+.founder .story-lead+.sub{margin-top:18px}
+.chapters{list-style:none;margin-top:clamp(32px,5vh,48px);border-top:1px solid var(--wine-line);max-width:62ch}
+.chapters li{display:grid;grid-template-columns:132px 1fr;gap:10px 24px;padding:clamp(22px,3.2vh,30px) 0;border-bottom:1px solid var(--wine-line)}
+.chapters .label{color:var(--wine-500);letter-spacing:.2em;line-height:1.7;padding-top:.2em}
+.chapters .label b{display:block;font-weight:500;opacity:.55}
+.chapters p{font-size:.97rem;color:var(--wine-text-70)}
+.chapters p+p{margin-top:12px}
+.chapters strong{color:var(--wine-700);font-weight:500}
+.chapters .born{margin-block:18px;font-size:clamp(1.5rem,2.3vw,2.1rem);font-weight:300;line-height:1.12;letter-spacing:-.035em;color:var(--wine-700)}
+.chapters .born .script{display:block}
+html.js .founder:not(.open) .more{display:none}
+.founder.open .more{animation:storyIn 600ms var(--ease-out) both}
+@keyframes storyIn{from{opacity:0}to{opacity:1}}
+.story-toggle{align-self:flex-start;margin-top:clamp(20px,3vh,28px);background:none;border:0;border-bottom:1px solid currentColor;font-family:inherit;color:var(--wine-700);cursor:pointer}
+.story-toggle i{position:relative;width:12px;height:12px;flex:none}
+.story-toggle i::before,.story-toggle i::after{content:"";position:absolute;left:0;top:50%;width:12px;height:1px;background:currentColor;transition:transform 300ms var(--ease-out)}
+.story-toggle i::after{transform:rotate(90deg)}
+.story-toggle[aria-expanded="true"] i::after{transform:rotate(0)}
+html:not(.js) .story-toggle{display:none}
+.founder-quote{margin-top:clamp(32px,5vh,48px);padding-left:20px;border-left:1px solid var(--wine-500);font-size:clamp(1.15rem,1.6vw,1.4rem);font-style:italic;font-weight:300;color:var(--wine-700);max-width:32ch}
 .founder-sign{margin-top:18px;font-family:var(--f-script);font-size:clamp(2.8rem,4vw,3.6rem);line-height:1;color:var(--wine-500)}
+.founder-role{margin-top:10px;color:var(--wine-text-70);letter-spacing:.2em}
+@media (min-width:901px){
+  /* портрет остаётся на экране, пока читаются главы */
+  .founder .split{align-items:start;grid-template-columns:minmax(0,.8fr) minmax(0,1fr)}
+  .founder .split-img{position:sticky;top:0;height:100vh}
+}
+@media (max-width:480px){
+  .chapters li{grid-template-columns:1fr}
+  .chapters .label b{display:inline;margin-right:.8em}
+}
+@media (prefers-reduced-motion:reduce){ .founder.open .more{animation:none} }
 
 /* отзывы */
 .reviews{background:#fff;color:var(--wine-700)}
@@ -607,7 +637,7 @@ body.menu-open .menu-foot{transition-delay:540ms}
       <li><a href="#services">Услуги</a></li>
       <li><a href="#events">События</a></li>
       <li><a href="#approach">Подход</a></li>
-      <li><a href="#founder">О Di</a></li>
+      <li><a href="#story">Наша история</a></li>
       <li><a href="#contact">Контакты</a></li>
       <li class="nav-line" id="navLine" aria-hidden="true"></li>
     </ul>
@@ -623,7 +653,7 @@ body.menu-open .menu-foot{transition-delay:540ms}
     <li><a href="#services">Услуги</a></li>
     <li><a href="#events">События</a></li>
     <li><a href="#approach">Подход</a></li>
-    <li><a href="#founder">О Di</a></li>
+    <li><a href="#story">Наша история</a></li>
     <li><a href="#contact">Контакты</a></li>
   </ol>
   <div class="menu-foot">
@@ -751,7 +781,7 @@ body.menu-open .menu-foot{transition-delay:540ms}
       <a class="btn" data-wa href="https://wa.me/79777736647" target="_blank" rel="noopener"><svg class="wa" aria-hidden="true"><use href="#i-wa"/></svg>Обсудить событие<svg class="arr" aria-hidden="true"><use href="#i-arr"/></svg></a>
     </div>
     <figure class="turnkey-media wipe">
-      <video src="images/turnkey-day.mp4" poster="images/turnkey-day.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Di на площадке в день мероприятия"></video>
+      <video src="images/turnkey-day.mp4" poster="images/turnkey-day.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Диана на площадке в день мероприятия"></video>
       <figcaption class="label">В день мероприятия мы на площадке раньше гостей и уходим последними</figcaption>
     </figure>
   </div>
@@ -822,17 +852,54 @@ body.menu-open .menu-foot{transition-delay:540ms}
   </div>
 </section>
 
-<!-- ================= 08 ОСНОВАТЕЛЬНИЦА ================= -->
-<section class="founder" id="founder" data-theme="light">
+<!-- ================= 08 НАША ИСТОРИЯ ================= -->
+<section class="founder" id="story" data-theme="light">
   <div class="split split-rev">
-    <div class="split-img wipe"><img src="images/diana-white.jpg" alt="Di, основательница Magic Moments, в белом пиджаке на празднике" loading="lazy" style="object-position:50% 22%"></div>
+    <div class="split-img wipe"><img src="images/diana-white.jpg" alt="Диана, основательница DI Magic Moments, в белом пиджаке на празднике" loading="lazy" style="object-position:50% 22%"></div>
     <div class="split-text reveal">
-      <p class="label eyebrow">Основательница</p>
-      <h2>За каждым событием <span class="script">всегда стоит человек</span></h2>
-      <p class="sub">Меня зовут Di. С&nbsp;детства я&nbsp;всегда что-то придумывала и&nbsp;организовывала: встречи, праздники, маленькие события, которым хотелось придать особое настроение. Мне было важно не&nbsp;«что», а&nbsp;как будут себя чувствовать люди внутри этого момента.</p>
-      <p class="sub">Образование в&nbsp;социально-культурной деятельности, рекламе и&nbsp;PR дало мне умение видеть идею целиком и&nbsp;чувствовать людей. Параллельно я&nbsp;пишу книгу — потому что слова и&nbsp;истории для меня так&nbsp;же важны, как свет, цвет и&nbsp;музыка.</p>
+      <p class="label eyebrow">Наша история</p>
+      <h2>За каждым событием <span class="script">стоит человек</span></h2>
+      <p class="story-lead">Всё началось с&nbsp;желания создавать особенные дни для своей семьи. Сегодня с&nbsp;тем&nbsp;же вниманием и&nbsp;заботой мы&nbsp;создаём события для&nbsp;вас.</p>
+      <p class="sub">Меня зовут Диана, я&nbsp;основательница DI&nbsp;Magic Moments.</p>
+
+      <ol class="chapters" id="storyChapters">
+        <li>
+          <span class="label"><b>01</b>Детство</span>
+          <div>
+            <p>С&nbsp;детства я&nbsp;любила придумывать, организовывать и&nbsp;собирать людей вместе. Встречи, праздники, маленькие события — мне всегда хотелось придать им&nbsp;особое настроение.<span class="more"> Я&nbsp;любила предвкушение, подготовку и&nbsp;момент, когда идея становится реальностью, а&nbsp;люди вокруг радуются тому, что получилось.</span></p>
+            <p>Уже тогда мне было важно, как люди будут чувствовать себя на&nbsp;празднике.<span class="more"> Будет&nbsp;ли им&nbsp;интересно, уютно, захочется&nbsp;ли остаться подольше? Сегодня я&nbsp;понимаю, что именно из&nbsp;этого внимания к&nbsp;людям и&nbsp;вырос мой подход к&nbsp;организации событий.</span></p>
+          </div>
+        </li>
+        <li>
+          <span class="label"><b>02</b>Образование</span>
+          <div>
+            <p>Позже этот интерес стал основой моего образования. В&nbsp;колледже я&nbsp;изучала режиссуру массовых мероприятий и&nbsp;социально-культурную деятельность<span class="more">: училась работать с&nbsp;идеей, сценарием и&nbsp;атмосферой, объединять отдельные детали в&nbsp;цельное событие</span>. Затем получила высшее образование в&nbsp;области рекламы и&nbsp;связей с&nbsp;общественностью и&nbsp;окончила обучение с&nbsp;красным дипломом.</p>
+          </div>
+        </li>
+        <li>
+          <span class="label"><b>03</b>Первые праздники</span>
+          <div>
+            <p>Новый этап начался, когда я&nbsp;стала мамой.<span class="more"> Вслед за&nbsp;первым ребёнком появился второй, и&nbsp;в&nbsp;нашей семье стало ещё больше поводов для праздников.</span> Именно тогда я&nbsp;начала воплощать собственные идеи — уже для самых близких.</p>
+            <p>Первым большим событием стал день рождения ребёнка: на&nbsp;его годик я&nbsp;самостоятельно организовала праздник <strong>для 50&nbsp;гостей</strong> — взрослых и&nbsp;детей.<span class="more"> Мне хотелось, чтобы этот день был интересным и&nbsp;тёплым для всех, чтобы каждый почувствовал себя частью нашей семейной истории.</span></p>
+            <p class="more">Потом были день рождения-сюрприз для мужа, мой собственный день рождения и&nbsp;годик второго ребёнка. Каждый праздник становился новой возможностью придумать что-то особенное: найти тему, выбрать место, продумать оформление, музыку и&nbsp;ход вечера.</p>
+            <p class="more">Мне нравилось создавать всё это с&nbsp;самого начала — от&nbsp;первой идеи до&nbsp;встречи гостей. А&nbsp;самой ценной частью становилась обратная связь: эмоции людей, тёплые слова после праздника и&nbsp;воспоминания, к&nbsp;которым они возвращались спустя время.</p>
+          </div>
+        </li>
+        <li>
+          <span class="label"><b>04</b>Своё дело</span>
+          <div>
+            <p>После каждого события я&nbsp;всё яснее понимала, насколько люблю это дело. Захотелось выйти за&nbsp;пределы семейных праздников и&nbsp;создавать такие моменты для других людей.</p>
+            <p class="born">Так родилось <span class="script">DI&nbsp;Magic Moments</span></p>
+            <p>В&nbsp;основе агентства соединились моё образование, опыт и&nbsp;личное отношение к&nbsp;праздникам.<span class="more"> Каждое событие начинается со&nbsp;знакомства: с&nbsp;вами, вашей историей, вкусами и&nbsp;пожеланиями. Мне важно понять, что сделает этот день именно вашим, — и&nbsp;вокруг этого выстроить концепцию.</span></p>
+            <p class="more">Затем наступает работа с&nbsp;деталями: площадкой, декором, сценарием, музыкой и&nbsp;командой. Всё должно сложиться так, чтобы вам и&nbsp;вашим гостям было комфортно, а&nbsp;у&nbsp;вас оставалось время на&nbsp;главное — быть рядом с&nbsp;близкими и&nbsp;наслаждаться своим праздником.</p>
+          </div>
+        </li>
+      </ol>
+      <button class="link-arrow story-toggle" id="storyToggle" type="button" aria-expanded="false" aria-controls="storyChapters"><span>Читать историю полностью</span><i aria-hidden="true"></i></button>
+
       <p class="founder-quote">Каждое событие для меня — это тоже история. Про вас.</p>
-      <p class="founder-sign" aria-label="Di">Di</p>
+      <p class="founder-sign">Диана</p>
+      <p class="label founder-role">основательница DI&nbsp;Magic Moments</p>
     </div>
   </div>
 </section>
@@ -1000,6 +1067,19 @@ burger.addEventListener('click', ()=>setMenu(!document.body.classList.contains('
 document.querySelectorAll('#menu a').forEach(a=>a.addEventListener('click', ()=>setMenu(false)));
 addEventListener('keydown', e=>{ if (e.key === 'Escape') setMenu(false); });
 matchMedia('(min-width:1081px)').addEventListener('change', e=>{ if (e.matches) setMenu(false); });
+
+/* ================= НАША ИСТОРИЯ: полный текст ================= */
+const story = document.getElementById('story');
+const storyBtn = document.getElementById('storyToggle');
+storyBtn.addEventListener('click', ()=>{
+  const open = story.classList.toggle('open');
+  storyBtn.setAttribute('aria-expanded', open);
+  storyBtn.firstElementChild.textContent = open ? 'Свернуть' : 'Читать историю полностью';
+  if (!open){ // блок стал короче — возвращаем кнопку в кадр
+    const r = storyBtn.getBoundingClientRect();
+    if (r.top < hdr.offsetHeight || r.bottom > innerHeight) storyBtn.scrollIntoView({block:'center'});
+  }
+});
 
 /* ================= HERO PARALLAX (мягкий, только десктоп) ================= */
 (function(){
