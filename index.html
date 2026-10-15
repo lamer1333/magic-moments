@@ -502,10 +502,14 @@ body.menu-open .menu-foot{transition-delay:540ms}
 .turnkey .sub{margin-top:22px;max-width:50ch}
 .turnkey .sub strong{color:var(--cream);font-weight:400}
 .turnkey .btn{margin-top:36px}
-.turnkey-media{position:relative;aspect-ratio:9/16;max-height:80vh;width:100%;max-width:420px;justify-self:center;overflow:hidden;background:var(--wine-850);box-shadow:0 40px 90px -30px rgba(0,0,0,.6)}
+.turnkey-media{position:relative;aspect-ratio:15/16;max-height:80vh;width:100%;max-width:420px;justify-self:center;overflow:hidden;background:var(--wine-850);box-shadow:0 40px 90px -30px rgba(0,0,0,.6)}
 .turnkey-media video{width:100%;height:100%;object-fit:cover;display:block}
 .turnkey-media::after{content:"";position:absolute;inset:14px;border:1px solid rgba(243,233,220,.25);pointer-events:none}
-.turnkey-media figcaption{position:absolute;left:28px;right:28px;bottom:28px;z-index:1;color:var(--cream);letter-spacing:.14em;line-height:1.6;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+/* кнопка «смотреть», если браузер не дал запустить видео сам (энергосбережение, reduced motion) */
+.vid-play{position:absolute;inset:0;z-index:2;margin:auto;width:72px;height:72px;border-radius:50%;border:1px solid rgba(243,233,220,.5);background:rgba(32,4,4,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--cream);display:none;place-items:center;cursor:pointer}
+.vid-play svg{width:26px;height:26px;margin-left:4px}
+.needs-tap .vid-play{display:grid}
+.turnkey-media figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:72px 28px 28px;background:linear-gradient(180deg,transparent,rgba(20,4,4,.72));color:var(--cream);letter-spacing:.14em;line-height:1.6;text-shadow:0 1px 12px rgba(0,0,0,.6)}
 
 /* кейс под галереей */
 .case{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center;margin-top:clamp(56px,9vh,100px);padding-top:clamp(48px,7vh,80px);border-top:1px solid var(--wine-line)}
@@ -779,7 +783,8 @@ body.menu-open .menu-foot{transition-delay:540ms}
       <a class="btn" data-wa href="https://wa.me/79777736647" target="_blank" rel="noopener"><svg class="wa" aria-hidden="true"><use href="#i-wa"/></svg>Обсудить событие<svg class="arr" aria-hidden="true"><use href="#i-arr"/></svg></a>
     </div>
     <figure class="turnkey-media wipe">
-      <video src="images/turnkey-day.mp4" poster="images/turnkey-day.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Диана на площадке в день мероприятия"></video>
+      <video src="images/turnkey-day.mp4?v=2" poster="images/turnkey-day.jpg?v=2" autoplay muted loop playsinline preload="metadata" aria-label="Диана на площадке в день мероприятия"></video>
+      <button class="vid-play" type="button" aria-label="Смотреть видео"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></button>
       <figcaption class="label">В день мероприятия мы на площадке раньше гостей и уходим последними</figcaption>
     </figure>
   </div>
@@ -1042,11 +1047,24 @@ matchMedia('(min-width:1081px)').addEventListener('change', e=>{ if (e.matches) 
   addEventListener('scroll', ()=>{ if(!raf) raf = requestAnimationFrame(frame); }, {passive:true});
 })();
 /* ================= ВИДЕО: играет только в кадре ================= */
+// iOS Safari не запускает видео, пока оно спрятано «шторкой» (clip-path), — поэтому
+// пробуем ещё раз, когда шторка открылась. В режиме энергосбережения автозапуск
+// запрещён совсем: тогда показываем кнопку, нажатие на неё браузер разрешает.
 (function(){
   const vids=[...document.querySelectorAll('video[autoplay]')];
-  vids.forEach(v=>{ v.muted=true; v.playsInline=true; });
-  if (reduce){ vids.forEach(v=>{ v.removeAttribute('autoplay'); v.pause(); }); return; }
-  const vio=new IntersectionObserver(es=>{ for(const e of es){ if(e.isIntersecting) e.target.play().catch(()=>{}); else e.target.pause(); } },{threshold:.2});
+  const seen=new WeakMap();
+  const tryPlay=v=>{
+    const p=v.play();
+    if (p) p.then(()=>v.parentElement.classList.remove('needs-tap'),()=>v.parentElement.classList.add('needs-tap'));
+  };
+  vids.forEach(v=>{
+    v.muted=true; v.playsInline=true;
+    const box=v.parentElement, btn=box.querySelector('.vid-play');
+    if (btn) btn.addEventListener('click',()=>tryPlay(v));
+    box.addEventListener('transitionend',e=>{ if (e.target===box && seen.get(v) && v.paused) tryPlay(v); });
+  });
+  if (reduce){ vids.forEach(v=>{ v.removeAttribute('autoplay'); v.pause(); v.parentElement.classList.add('needs-tap'); }); return; }
+  const vio=new IntersectionObserver(es=>{ for(const e of es){ seen.set(e.target,e.isIntersecting); if(e.isIntersecting) tryPlay(e.target); else e.target.pause(); } },{threshold:.2});
   vids.forEach(v=>vio.observe(v));
 })();
 </script>
