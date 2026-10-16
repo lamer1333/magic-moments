@@ -511,6 +511,33 @@ body.menu-open .menu-foot{transition-delay:540ms}
 .needs-tap .vid-play{display:grid}
 .turnkey-media figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:72px 28px 28px;background:linear-gradient(180deg,transparent,rgba(20,4,4,.72));color:var(--cream);letter-spacing:.14em;line-height:1.6;text-shadow:0 1px 12px rgba(0,0,0,.6)}
 
+/* истории в движении: видео-карточки в «Событиях» + окно с полным роликом */
+.reels{margin-top:clamp(56px,9vh,100px)}
+.reels-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 40px;flex-wrap:wrap;margin-bottom:clamp(24px,4vh,36px)}
+.reels-head .eyebrow{margin-bottom:0}
+.reels-head .sub{margin:0;max-width:44ch}
+.reels-row{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,24px)}
+.reel{position:relative;display:block;width:100%;aspect-ratio:9/16;overflow:hidden;background:var(--wine-850);border:0;padding:0;color:var(--cream);text-align:left;font:inherit}
+button.reel{cursor:pointer}
+.reel video{width:100%;height:100%;object-fit:cover;display:block;transition:transform 900ms var(--ease-out)}
+.reel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgba(20,4,4,.8));pointer-events:none}
+.reel-cap{position:absolute;left:20px;right:20px;bottom:20px;z-index:1;display:grid;gap:8px}
+.reel-cap .label{color:var(--champagne)}
+.reel-cap b{font-weight:300;font-size:clamp(1.1rem,1.4vw,1.35rem);letter-spacing:-.02em;line-height:1.15}
+.reel-play{position:absolute;top:16px;right:16px;z-index:1;width:44px;height:44px;border-radius:50%;border:1px solid rgba(243,233,220,.5);background:rgba(32,4,4,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:grid;place-items:center}
+.reel-play svg{width:16px;height:16px;margin-left:2px}
+@media (hover:hover) and (pointer:fine){ button.reel:hover video{transform:scale(1.04)} }
+@media (max-width:900px){
+  .reels-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1 * var(--pad));padding-inline:var(--pad);scroll-padding-inline:var(--pad);scrollbar-width:none}
+  .reels-row::-webkit-scrollbar{display:none}
+  .reels-row li{flex:0 0 min(64vw,300px);scroll-snap-align:start}
+}
+.vbox{inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;place-items:center}
+.vbox[open]{display:grid}
+.vbox::backdrop{background:rgba(16,3,3,.94)}
+.vbox video{height:min(88vh,calc(92vw * 16 / 9));max-width:92vw;aspect-ratio:9/16;background:#000}
+.vbox-close{position:fixed;top:max(16px,env(safe-area-inset-top));right:16px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(243,233,220,.4);background:rgba(32,4,4,.55);color:var(--cream);font:300 30px/1 var(--f-sans);cursor:pointer}
+
 /* кейс под галереей */
 .case{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center;margin-top:clamp(56px,9vh,100px);padding-top:clamp(48px,7vh,80px);border-top:1px solid var(--wine-line)}
 .case-img{aspect-ratio:3/2;overflow:hidden;background:var(--ivory)}
@@ -807,6 +834,19 @@ body.menu-open .menu-foot{transition-delay:540ms}
       <figure class="shot"><div class="frame"><img src="images/food.jpg" alt="Праздничный фуршет: тарталетки, ягоды и напитки" loading="lazy"></div><figcaption>Детали вечера</figcaption></figure>
     </div>
 
+    <div class="reels reveal" id="reels">
+      <div class="reels-head">
+        <p class="label eyebrow">Истории в&nbsp;движении</p>
+        <p class="sub">Несколько вечеров так, как их&nbsp;прожили гости. Нажмите на&nbsp;карточку, чтобы посмотреть целиком.</p>
+      </div>
+      <ul class="reels-row">
+      <li><button class="reel" type="button" data-full="images/story-diana-full.mp4" aria-label="Смотреть видео: Game. Set. Diana"><video src="images/story-diana.mp4" poster="images/story-diana.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">День рождения</span><b>Game. Set. Diana</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
+      <li><button class="reel" type="button" data-full="images/story-dinner-full.mp4" aria-label="Смотреть видео: Живой вокал и&nbsp;сюрприз со&nbsp;змеёй"><video src="images/story-dinner.mp4" poster="images/story-dinner.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">День рождения · ресторан</span><b>Живой вокал и&nbsp;сюрприз со&nbsp;змеёй</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
+      <li><div class="reel"><video src="images/story-mark.mp4" poster="images/story-mark.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">Детский день рождения</span><b>Путешествие Марка</b></span></div></li>
+      <li><button class="reel" type="button" data-full="images/story-club-full.mp4" aria-label="Смотреть видео: Встреча за&nbsp;настольной игрой"><video src="images/story-club.mp4" poster="images/story-club.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">Женский клуб</span><b>Встреча за&nbsp;настольной игрой</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
+      </ul>
+    </div>
+
     <article class="case reveal" id="nba">
       <div class="case-img"><img src="images/nba-cake.jpg" alt="Именинница с подругами у торта в виде баскетбольной площадки" loading="lazy"></div>
       <div class="case-body">
@@ -944,6 +984,11 @@ body.menu-open .menu-foot{transition-delay:540ms}
   </div>
 </footer>
 
+<dialog class="vbox" id="vbox" aria-label="Видео">
+  <video controls playsinline preload="metadata"></video>
+  <button class="vbox-close" type="button" aria-label="Закрыть видео">×</button>
+</dialog>
+
 <a class="wa-float" id="waFloat" data-wa href="https://wa.me/79777736647" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><svg aria-hidden="true"><use href="#i-wa"/></svg></a>
 
 <script>
@@ -1046,6 +1091,18 @@ matchMedia('(min-width:1081px)').addEventListener('change', e=>{ if (e.matches) 
   }
   addEventListener('scroll', ()=>{ if(!raf) raf = requestAnimationFrame(frame); }, {passive:true});
 })();
+/* ================= ИСТОРИИ: полный ролик со звуком ================= */
+(function(){
+  const box=document.getElementById('vbox'), v=box.querySelector('video');
+  document.querySelectorAll('.reel[data-full]').forEach(b=>b.addEventListener('click',()=>{
+    v.poster=b.querySelector('video').poster; v.src=b.dataset.full;
+    box.showModal(); v.play().catch(()=>{});
+  }));
+  box.querySelector('.vbox-close').addEventListener('click',()=>box.close());
+  box.addEventListener('click',e=>{ if (e.target===box) box.close(); });
+  box.addEventListener('close',()=>{ v.pause(); v.removeAttribute('src'); v.load(); });
+})();
+
 /* ================= ВИДЕО: играет только в кадре ================= */
 // iOS Safari не запускает видео, пока оно спрятано «шторкой» (clip-path), — поэтому
 // пробуем ещё раз, когда шторка открылась. В режиме энергосбережения автозапуск
