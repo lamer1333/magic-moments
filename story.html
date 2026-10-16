@@ -611,6 +611,16 @@ body.menu-open .menu-foot{transition-delay:540ms}
   .faq-list summary .label{display:none}
   .faq-answer{padding:0 0 24px}
 }
+/* видео Дианы на странице истории */
+.story-video{margin-top:clamp(36px,6vh,56px);max-width:340px}
+.story-video .label{display:block;margin-bottom:14px;color:var(--wine-500);letter-spacing:.2em}
+.story-video-frame{position:relative;aspect-ratio:9/16;overflow:hidden;background:var(--wine-850);box-shadow:0 30px 70px -30px rgba(32,4,4,.55)}
+.story-video video{width:100%;height:100%;object-fit:cover;display:block}
+.story-video-play{position:absolute;inset:0;width:100%;border:0;padding:0;background:linear-gradient(180deg,transparent 60%,rgba(20,4,4,.55));cursor:pointer;display:grid;place-items:center;color:var(--cream)}
+.story-video-play span{width:76px;height:76px;border-radius:50%;border:1px solid rgba(243,233,220,.6);background:rgba(32,4,4,.4);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:grid;place-items:center;transition:transform 260ms var(--ease-out)}
+.story-video-play svg{width:26px;height:26px;margin-left:4px}
+@media (hover:hover) and (pointer:fine){ .story-video-play:hover span{transform:scale(1.06)} }
+.story-video.playing .story-video-play{display:none}
 </style>
 </head>
 <body>
@@ -710,6 +720,14 @@ body.menu-open .menu-foot{transition-delay:540ms}
           </div>
         </li>
       </ol>
+
+      <figure class="story-video">
+        <figcaption class="label">Диана о&nbsp;своей работе</figcaption>
+        <div class="story-video-frame">
+          <video src="images/story-dinner-full.mp4" poster="images/story-diana-talk.jpg" playsinline preload="none"></video>
+          <button class="story-video-play" type="button" aria-label="Смотреть видео: Диана о своей работе"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button>
+        </div>
+      </figure>
 
       <p class="founder-quote">Каждое событие для меня — это тоже история. Про вас.</p>
       <p class="founder-sign">Диана</p>
@@ -835,6 +853,14 @@ burger.addEventListener('click', ()=>setMenu(!document.body.classList.contains('
 document.querySelectorAll('#menu a').forEach(a=>a.addEventListener('click', ()=>setMenu(false)));
 addEventListener('keydown', e=>{ if (e.key === 'Escape') setMenu(false); });
 matchMedia('(min-width:1081px)').addEventListener('change', e=>{ if (e.matches) setMenu(false); });
+
+/* ================= ВИДЕО ДИАНЫ: запуск по нажатию, со звуком ================= */
+(function(){
+  const fig=document.querySelector('.story-video'), v=fig.querySelector('video');
+  fig.querySelector('.story-video-play').addEventListener('click',()=>{
+    fig.classList.add('playing'); v.controls=true; v.play().catch(()=>{});
+  });
+})();
 
 /* ================= ВИДЕО: играет только в кадре ================= */
 (function(){
