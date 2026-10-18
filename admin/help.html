@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Как править сайт · Magic Moments</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#510b0a;--wine-70:rgba(81,11,10,.72);--line:rgba(81,11,10,.14);--cream:#f7f1ea;--card:#fffdfa}
+*{box-sizing:border-box;margin:0}
+body{background:var(--cream);color:var(--wine);font:300 17px/1.6 Inter,system-ui,sans-serif;padding:clamp(28px,6vw,72px) 16px 80px}
+main{max-width:680px;margin:0 auto}
+.label{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:400;opacity:.75}
+h1{font-weight:300;font-size:clamp(2rem,6vw,2.8rem);line-height:1.1;letter-spacing:-.03em;margin:12px 0 18px}
+.script{font-family:"Great Vibes",cursive;font-size:1.25em;letter-spacing:0}
+.lead{color:var(--wine-70)}
+.btn{display:inline-block;margin:24px 0 8px;background:var(--wine);color:var(--cream);text-decoration:none;padding:14px 26px;font-weight:400}
+section{background:var(--card);border:1px solid var(--line);padding:clamp(20px,4vw,32px);margin-top:20px}
+h2{font-weight:400;font-size:1.2rem;letter-spacing:-.01em;margin-bottom:12px;display:flex;gap:12px;align-items:baseline}
+h2 span{font-size:.75rem;letter-spacing:.14em;opacity:.55}
+ol,ul{padding-left:1.2em}
+li{margin:6px 0}
+b{font-weight:500}
+kbd{font:inherit;font-weight:400;border:1px solid var(--line);padding:1px 7px;background:var(--cream);white-space:nowrap}
+.note{margin-top:12px;font-size:.92rem;color:var(--wine-70)}
+</style>
+</head>
+<body>
+<main>
+  <p class="label">DI Magic Moments</p>
+  <h1>Как править <span class="script">сайт</span></h1>
+  <p class="lead">В админке можно менять форматы, события, отзывы и контакты: заменять фото, править тексты, добавлять новые праздники и видео. Дизайн при этом не сломается — меняется только содержимое.</p>
+  <a class="btn" href="./">Открыть админку</a>
+
+  <section>
+    <h2><span>01</span>Вход — один раз на устройство</h2>
+    <ol>
+      <li>Откройте админку по кнопке выше.</li>
+      <li>Нажмите <kbd>Войти с помощью токена доступа</kbd>.</li>
+      <li>Вставьте ключ, который вам передали, и нажмите <kbd>Войти</kbd>.</li>
+    </ol>
+    <p class="note">Браузер запомнит вход. На новом телефоне или компьютере ключ нужно будет вставить ещё раз. Никому не пересылайте его.</p>
+  </section>
+
+  <section>
+    <h2><span>02</span>Заменить фото или текст</h2>
+    <ol>
+      <li>Слева выберите раздел: <b>Форматы</b>, <b>События</b>, <b>Отзывы</b> или <b>Контакты</b>.</li>
+      <li>У фото нажмите <kbd>Заменить</kbd> и выберите снимок с телефона или компьютера. Он сам сожмётся для сайта.</li>
+      <li>Если на фото обрезаются головы — в поле «Какую часть фото показывать» выберите <b>Верх</b>.</li>
+      <li>Нажмите <kbd>Сохранить</kbd> вверху.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span>03</span>Добавить новый праздник</h2>
+    <ul>
+      <li><b>История с фото и рассказом</b> — «События» → «Истории праздников» → <kbd>Добавить историю</kbd>.</li>
+      <li><b>Видео</b> — «События» → «Видео-истории» → <kbd>Добавить видео</kbd>. Вертикальное, как сторис, до 40 МБ. Короткое превью и обложка сделаются сами.</li>
+      <li><b>Отзыв</b> — «Отзывы» → <kbd>Добавить отзыв</kbd>. Только имя, без фамилии; кавычки не нужны.</li>
+    </ul>
+    <p class="note">Новое появляется первым. Порядок меняется перетаскиванием за значок ⠿, удалить — крестик ✕ у элемента.</p>
+  </section>
+
+  <section>
+    <h2><span>04</span>Красивые слова</h2>
+    <p>В заголовках слова в звёздочках пишутся каллиграфией: <kbd>Праздник как *отражение именинницы*</kbd> → Праздник как <span class="script">отражение именинницы</span>.</p>
+    <p class="note">В рассказе пустая строка между абзацами начинает новый абзац.</p>
+  </section>
+
+  <section>
+    <h2><span>05</span>Когда изменения появятся на сайте</h2>
+    <p>Через 1–3 минуты после «Сохранить». Если с видео — до 5 минут. Потом обновите страницу сайта.</p>
+    <p class="note">Каждое сохранение запоминается. Если что-то пошло не так — напишите разработчику, любую прошлую версию можно вернуть.</p>
+  </section>
+</main>
+</body>
+</html>

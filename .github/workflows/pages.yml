@@ -1,0 +1,58 @@
+# Собирает страницу из content/*.json и публикует сайт на GitHub Pages.
+# Запускается на каждый коммит в main — в том числе на сохранения из админки /admin.
+name: Сборка и публикация
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: ffmpeg для превью видео
+        run: command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+
+      - name: Собрать страницу
+        run: node tools/build.mjs
+
+      # Собранный index.html, превью и обложки видео возвращаются в репозиторий,
+      # чтобы локальная копия совпадала с сайтом. Коммит от GITHUB_TOKEN новый запуск не вызывает.
+      - name: Сохранить результат сборки
+        run: |
+          git add -A index.html story.html images/auto
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Собрать страницу из контента"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

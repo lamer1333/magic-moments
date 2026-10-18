@@ -8,10 +8,10 @@
 <meta name="theme-color" content="#200404">
 <!-- ============================================================
   DI MAGIC MOMENTS — landing v2 (по концепции из PDF)
-  WhatsApp: +7 977 773-66-47 — меняется в одном месте: WA_PHONE в <script>.
-  Фото вырезаны из PDF-концепции (это макетные изображения) —
-  перед запуском заменить файлы в /images на материалы агентства,
-  сохранив имена файлов.
+  WhatsApp: +7 977 773-66-47
+  Разделы между маркерами <!-- cms:… --> (Форматы, События, Отзывы, Контакты),
+  телефон и Instagram собираются из content/*.json скриптом tools/build.mjs.
+  Контент правится в админке /admin; вёрстку этих разделов менять в tools/build.mjs.
 ============================================================ -->
 <script>if(!/[?&]static\b/.test(location.search))document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -267,7 +267,7 @@ section{position:relative}
 }
 .formats-top .sec-head{margin-bottom:0}
 .formats-body{background:#fff;color:var(--wine-700);padding-bottom:clamp(48px,7vh,80px);position:relative;z-index:1;display:flow-root}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.6vw,22px);margin-top:calc(var(--overlap) * -1)}
+.cards{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:clamp(14px,1.6vw,22px);margin-top:calc(var(--overlap) * -1)}
 .card{
   background:#fff;color:var(--wine-700);display:flex;flex-direction:column;
   box-shadow:0 34px 70px -34px rgba(54,7,7,.45),0 0 0 1px rgba(81,11,10,.08);
@@ -548,6 +548,8 @@ button.reel{cursor:pointer}
 .case-body h3 .script{display:block;white-space:normal;color:var(--wine-700)}
 .case-body p{color:var(--wine-text-70)}
 .case-body .link-arrow{justify-self:start}
+.case+.case{margin-top:clamp(40px,6vh,64px)}
+@media (min-width:901px){ .case:nth-of-type(even){grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)} .case:nth-of-type(even) .case-img{order:2} }
 
 /* цитата-полоса */
 .quote-band{background:var(--wine-700);color:var(--cream);text-align:center;padding-block:clamp(80px,13vh,150px)}
@@ -726,14 +728,15 @@ button.reel{cursor:pointer}
 </section>
 
 <!-- ================= 02 ФОРМАТЫ ================= -->
+<!-- cms:formats -->
 <section class="formats" id="formats">
   <div class="formats-top grain" data-theme="dark">
     <div class="wrap">
       <div class="sec-head reveal">
         <div>
           <p class="label eyebrow">Агентство событий Magic Moments</p>
-          <h2>У каждого повода — <span class="script">свой характер</span></h2>
-          <p class="sub">Мы&nbsp;делаем камерные праздники «под&nbsp;ключ» — где важно не&nbsp;количество гостей и&nbsp;не&nbsp;масштаб, а&nbsp;общее ощущение вечера. Не&nbsp;работаем по&nbsp;шаблонам и&nbsp;не&nbsp;предлагаем «готовые пакеты»: формат подбирается под ваш запрос, гостей и&nbsp;бюджет.</p>
+          <h2>У&nbsp;каждого повода&nbsp;— <span class="script">свой характер</span></h2>
+          <p class="sub">Мы&nbsp;делаем камерные праздники «под ключ»&nbsp;— где важно не&nbsp;количество гостей и&nbsp;не&nbsp;масштаб, а&nbsp;общее ощущение вечера. Не&nbsp;работаем по&nbsp;шаблонам и&nbsp;не&nbsp;предлагаем «готовые пакеты»: формат подбирается под ваш запрос, гостей и&nbsp;бюджет.</p>
         </div>
       </div>
     </div>
@@ -741,7 +744,7 @@ button.reel{cursor:pointer}
 
   <div class="formats-body" data-theme="light">
   <div class="wrap">
-    <div class="cards reveal-group">
+    <div class="cards reveal-group" style="--n:3">
       <article class="card">
         <div class="card-img"><img src="images/group-roses.jpg" alt="Именинница в красном платье с букетом роз в кругу подруг" loading="lazy"></div>
         <div class="card-body">
@@ -765,20 +768,21 @@ button.reel{cursor:pointer}
         <div class="card-body">
           <span class="label card-num">03</span>
           <h3>Женский клуб</h3>
-          <p>Завтраки, spa-встречи и&nbsp;камерные вечера для женщин — куда можно прийти такой, какая ты&nbsp;есть. Также организуем встречи для женских сообществ.</p>
+          <p>Завтраки, spa-встречи и&nbsp;камерные вечера для женщин&nbsp;— куда можно прийти такой, какая ты&nbsp;есть. Также организуем встречи для женских сообществ.</p>
           <a class="link-arrow" data-wa="Здравствуйте! Хочу узнать о встречах женского клуба." href="https://wa.me/79777736647" target="_blank" rel="noopener">Обсудить<svg class="arr" aria-hidden="true"><use href="#i-arr"/></svg></a>
         </div>
       </article>
     </div>
 
     <div class="strip reveal">
-      <h3>Расскажите о вашем поводе</h3>
+      <h3>Расскажите о&nbsp;вашем поводе</h3>
       <span class="rule" aria-hidden="true"></span>
       <a class="btn btn-dark" data-wa href="https://wa.me/79777736647" target="_blank" rel="noopener">Обсудить формат<svg class="arr" aria-hidden="true"><use href="#i-arr"/></svg></a>
     </div>
   </div>
   </div>
 </section>
+<!-- /cms:formats -->
 
 <!-- ================= 03 ЧТО ВХОДИТ В УСЛУГИ ================= -->
 <section class="services" id="services" data-theme="light">
@@ -818,18 +822,19 @@ button.reel{cursor:pointer}
 </section>
 
 <!-- ================= 05 СОБЫТИЯ ================= -->
+<!-- cms:events -->
 <section class="events sec" id="events" data-theme="light">
   <div class="wrap">
     <div class="sec-head reveal">
       <div>
         <h2>Моменты, которые <span class="script">остались с&nbsp;нами</span></h2>
-        <p class="sub">У&nbsp;каждого события есть своё настроение. Мы&nbsp;собираем вечер так, чтобы всё ощущалось цельным — как фильм, с&nbsp;вами в&nbsp;главной роли.</p>
+        <p class="sub">У&nbsp;каждого события есть своё настроение. Мы&nbsp;собираем вечер так, чтобы всё ощущалось цельным&nbsp;— как фильм, с&nbsp;вами в&nbsp;главной роли.</p>
       </div>
     </div>
 
     <div class="gallery reveal-group" id="gallery">
       <figure class="shot"><div class="frame"><img src="images/hosts-mic.jpg" alt="Ведущий с микрофоном и гостья посреди праздника" loading="lazy"></div><figcaption>Вечер идёт в&nbsp;своём ритме</figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="images/mood-hat.jpg" alt="Гостья в соломенной шляпе с бокалом в тёплом свете" loading="lazy"></div><figcaption>У&nbsp;каждого события — своё настроение</figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="images/mood-hat.jpg" alt="Гостья в соломенной шляпе с бокалом в тёплом свете" loading="lazy"></div><figcaption>У&nbsp;каждого события&nbsp;— своё настроение</figcaption></figure>
       <figure class="shot"><div class="frame"><img src="images/game-lizard.jpg" alt="Гости играют с ведущим, на ящике сидит ящерица-агама" loading="lazy"></div><figcaption>Люди расслабляются и&nbsp;становятся собой</figcaption></figure>
       <figure class="shot"><div class="frame"><img src="images/food.jpg" alt="Праздничный фуршет: тарталетки, ягоды и напитки" loading="lazy"></div><figcaption>Детали вечера</figcaption></figure>
     </div>
@@ -840,24 +845,25 @@ button.reel{cursor:pointer}
         <p class="sub">Несколько вечеров так, как их&nbsp;прожили гости. Нажмите на&nbsp;карточку, чтобы посмотреть целиком.</p>
       </div>
       <ul class="reels-row">
-      <li><button class="reel" type="button" data-full="images/story-diana-full.mp4" aria-label="Смотреть видео: Game. Set. Diana"><video src="images/story-diana.mp4" poster="images/story-diana.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">День рождения</span><b>Game. Set. Diana</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
-      <li><button class="reel" type="button" data-full="images/story-dinner-full.mp4" aria-label="Смотреть видео: Живой вокал и&nbsp;сюрприз со&nbsp;змеёй"><video src="images/story-dinner.mp4" poster="images/story-dinner.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">День рождения · ресторан</span><b>Живой вокал и&nbsp;сюрприз со&nbsp;змеёй</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
-      <li><div class="reel"><video src="images/story-mark.mp4" poster="images/story-mark.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">Детский день рождения</span><b>Путешествие Марка</b></span></div></li>
-      <li><button class="reel" type="button" data-full="images/story-club-full.mp4" aria-label="Смотреть видео: Встреча за&nbsp;настольной игрой"><video src="images/story-club.mp4" poster="images/story-club.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">Женский клуб</span><b>Встреча за&nbsp;настольной игрой</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
+      <li><button class="reel" type="button" data-full="images/story-diana-full.mp4" aria-label="Смотреть видео: Game. Set. Diana"><video src="images/auto/story-diana-full.mp4" poster="images/auto/story-diana-full.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">День рождения</span><b>Game. Set. Diana</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
+      <li><button class="reel" type="button" data-full="images/story-dinner-full.mp4" aria-label="Смотреть видео: Живой вокал и сюрприз со змеёй"><video src="images/auto/story-dinner-full.mp4" poster="images/auto/story-dinner-full.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">День рождения · ресторан</span><b>Живой вокал и&nbsp;сюрприз со&nbsp;змеёй</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
+      <li><div class="reel"><video src="images/story-mark.mp4" poster="images/auto/story-mark.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">Детский день рождения</span><b>Путешествие Марка</b></span></div></li>
+      <li><button class="reel" type="button" data-full="images/story-club-full.mp4" aria-label="Смотреть видео: Встреча за настольной игрой"><video src="images/auto/story-club-full.mp4" poster="images/auto/story-club-full.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true"></video><span class="reel-cap"><span class="label">Женский клуб</span><b>Встреча за&nbsp;настольной игрой</b></span><span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg></span></button></li>
       </ul>
     </div>
 
-    <article class="case reveal" id="nba">
+    <article class="case reveal">
       <div class="case-img"><img src="images/nba-cake.jpg" alt="Именинница с подругами у торта в виде баскетбольной площадки" loading="lazy"></div>
       <div class="case-body">
         <span class="label">День рождения · два дня</span>
         <h3>Праздник как <span class="script">отражение именинницы</span></h3>
-        <p>Когда-то баскетбол был большой частью её&nbsp;жизни. Во&nbsp;взрослом ритме — работа, семья, двое детей — это ощущение осталось в&nbsp;воспоминаниях. Мы&nbsp;разделили праздник на&nbsp;два дня, чтобы гости прожили эту историю вместе с&nbsp;именинницей — не&nbsp;наблюдателями, а&nbsp;участниками.</p>
+        <p>Когда-то баскетбол был большой частью её&nbsp;жизни. Во&nbsp;взрослом ритме&nbsp;— работа, семья, двое детей&nbsp;— это ощущение осталось в&nbsp;воспоминаниях. Мы&nbsp;разделили праздник на&nbsp;два дня, чтобы гости прожили эту историю вместе с&nbsp;именинницей&nbsp;— не&nbsp;наблюдателями, а&nbsp;участниками.</p>
         <a class="link-arrow" data-wa="Здравствуйте! Хочу праздник со своей историей." href="https://wa.me/79777736647" target="_blank" rel="noopener">Хочу свою историю<svg class="arr" aria-hidden="true"><use href="#i-arr"/></svg></a>
       </div>
     </article>
   </div>
 </section>
+<!-- /cms:events -->
 
 <!-- ================= 06 ЦИТАТА ================= -->
 <section class="quote-band grain" data-theme="dark">
@@ -910,6 +916,7 @@ button.reel{cursor:pointer}
 </section>
 
 <!-- ================= 09 ОТЗЫВЫ ================= -->
+<!-- cms:reviews -->
 <section class="reviews sec" id="reviews" data-theme="light">
   <div class="wrap">
     <div class="sec-head reveal"><div><h2>Ваши <span class="script">отзывы</span></h2></div></div>
@@ -918,13 +925,14 @@ button.reel{cursor:pointer}
       <figcaption class="label">Эрлан</figcaption>
     </figure>
     <div class="review-grid reveal-group">
-      <figure class="review"><blockquote>Дианочка, для меня ценны такие уютные дни, ты&nbsp;творец для нас&nbsp;:) Спасибо за&nbsp;такое уютное мероприятие, всей душой обожаю!</blockquote><figcaption class="label">Ира</figcaption></figure>
+      <figure class="review"><blockquote>Дианочка, для меня ценны такие уютные дни, ты&nbsp;творец для нас :) Спасибо за&nbsp;такое уютное мероприятие, всей душой обожаю!</blockquote><figcaption class="label">Ира</figcaption></figure>
       <figure class="review"><blockquote>Это был отличный, тёплый день рождения! Мы&nbsp;получили много ярких впечатлений! Спасибо!</blockquote><figcaption class="label">Нелли</figcaption></figure>
       <figure class="review"><blockquote>Очень душевный праздник получился! Спасибо!</blockquote><figcaption class="label">Кирилл</figcaption></figure>
       <figure class="review"><blockquote>Праздник огонь! Спасибо, друзья!</blockquote><figcaption class="label">Саша</figcaption></figure>
     </div>
   </div>
 </section>
+<!-- /cms:reviews -->
 
 <!-- ================= 10 ВОПРОСЫ ================= -->
 <section class="faq sec" id="faq" data-theme="light">
@@ -955,10 +963,11 @@ button.reel{cursor:pointer}
 </section>
 
 <!-- ================= 11 КОНТАКТЫ ================= -->
+<!-- cms:contact -->
 <section class="contact grain" id="contact" data-theme="dark">
   <div class="contact-text reveal">
     <h2>Давайте обсудим<br>ваш <span class="script">праздник</span></h2>
-    <p class="sub">Если вам близка такая атмосфера, глубина и&nbsp;тёплая магия деталей — нам точно по&nbsp;пути. Откроется чат с&nbsp;готовым сообщением — останется нажать «Отправить».</p>
+    <p class="sub">Если вам близка такая атмосфера, глубина и&nbsp;тёплая магия деталей&nbsp;— нам точно по&nbsp;пути. Откроется чат с&nbsp;готовым сообщением&nbsp;— останется нажать «Отправить».</p>
     <a class="btn" data-wa href="https://wa.me/79777736647" target="_blank" rel="noopener">
       <svg class="wa" aria-hidden="true"><use href="#i-wa"/></svg>Написать в WhatsApp<svg class="arr" aria-hidden="true"><use href="#i-arr"/></svg>
     </a>
@@ -974,6 +983,7 @@ button.reel{cursor:pointer}
   </div>
   <div class="contact-img wipe"><img src="images/process-result.jpg" alt="Бокал мартини с оливкой на мраморном столике у красного бархатного дивана" loading="lazy"></div>
 </section>
+<!-- /cms:contact -->
 </main>
 
 <footer>

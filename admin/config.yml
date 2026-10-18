@@ -1,0 +1,168 @@
+# Админка сайта (Sveltia CMS). Каждое сохранение — коммит в main;
+# GitHub Action собирает страницу (tools/build.mjs) и публикует её на GitHub Pages.
+
+backend:
+  name: github
+  repo: lamer1333/magic-moments
+  branch: main
+  commit_messages:
+    create: "Админка: создано «{{slug}}»"
+    update: "Админка: обновлено «{{slug}}»"
+    delete: "Админка: удалено «{{slug}}»"
+    uploadMedia: "Админка: загружен файл {{path}}"
+    deleteMedia: "Админка: удалён файл {{path}}"
+
+site_url: https://lamer1333.github.io/magic-moments/
+display_url: https://lamer1333.github.io/magic-moments/
+
+media_folder: images
+public_folder: /images
+media_libraries:
+  default:
+    config:
+      max_file_size: 41943040 # 40 МБ — больше GitHub принимает плохо
+      transformations:
+        raster_image: # фото с телефона сжимаются в WebP до 2400 px
+          format: webp
+          quality: 85
+          width: 2400
+          height: 2400
+
+collections:
+  - name: site
+    label: Разделы сайта
+    icon: web
+    editor: { preview: false }
+    files:
+      # ---------------- ФОРМАТЫ ----------------
+      - name: formats
+        label: Форматы
+        file: content/formats.json
+        fields:
+          - { label: Надпись над заголовком, name: eyebrow, widget: string, required: false }
+          - { label: Заголовок, name: title, widget: string, hint: &script_hint 'Слова, обёрнутые звёздочками — \*вот так\*, — будут написаны каллиграфией.' }
+          - { label: Вступление, name: intro, widget: text, required: false }
+          - label: Карточки форматов
+            name: cards
+            widget: list
+            label_singular: формат
+            min: 1
+            max: 6
+            summary: "{{fields.title}}"
+            hint: Порядок можно менять перетаскиванием. Номера 01, 02… ставятся сами.
+            fields:
+              - { label: Название, name: title, widget: string }
+              - { label: Описание, name: text, widget: text }
+              - &photo
+                label: Фото
+                name: photo
+                widget: image
+                hint: Горизонтальные и вертикальные подойдут — фото само обрежется под карточку.
+              - &alt
+                label: Что на фото
+                name: alt
+                widget: string
+                required: false
+                hint: Одна фраза, например «Именинница с подругами у торта». Нужна для Google и незрячих.
+              - &focus
+                label: Какую часть фото показывать
+                name: focus
+                widget: select
+                default: center
+                options:
+                  - { label: По центру, value: center }
+                  - { label: Верх (если обрезаются головы), value: top }
+                  - { label: Чуть выше центра, value: upper }
+                  - { label: Низ, value: bottom }
+              - &message
+                label: Сообщение в WhatsApp
+                name: message
+                widget: string
+                required: false
+                hint: С этим текстом откроется чат, когда нажмут кнопку. Пусто — общее сообщение из «Контактов».
+          - { label: Строка под карточками, name: strip, widget: string, required: false, default: Расскажите о вашем поводе }
+
+      # ---------------- СОБЫТИЯ ----------------
+      - name: events
+        label: События
+        file: content/events.json
+        fields:
+          - { label: Заголовок раздела, name: title, widget: string, hint: *script_hint }
+          - { label: Вступление, name: intro, widget: text, required: false }
+          - label: Мозаика из 4 фото
+            name: gallery
+            widget: list
+            label_singular: фото
+            min: 4
+            max: 4
+            summary: "{{fields.caption}}"
+            hint: Ровно 4 фото — так устроена мозаика. Первое и второе — крупные.
+            fields:
+              - *photo
+              - { label: Подпись, name: caption, widget: string, required: false }
+              - *alt
+              - *focus
+          - { label: Заголовок видео-блока, name: reels_title, widget: string, default: Истории в движении }
+          - { label: Текст видео-блока, name: reels_intro, widget: text, required: false }
+          - label: Видео-истории
+            name: reels
+            widget: list
+            label_singular: видео
+            add_to_top: true
+            summary: "{{fields.label}} — {{fields.title}}"
+            hint: Вертикальные видео (как в сторис). На сайте крутится короткое превью без звука, по нажатию — целиком со звуком. Превью и обложка создаются сами за пару минут после публикации.
+            fields:
+              - { label: Повод, name: label, widget: string, required: false, hint: Например «День рождения · ресторан» }
+              - { label: Название, name: title, widget: string }
+              - label: Видео
+                name: video
+                widget: file
+                accept: video/*
+                hint: MP4 или MOV до 40 МБ. Если файл больше — сократите ролик или отправьте его в более низком качестве.
+              - { label: Открывать целиком по нажатию, name: open_full, widget: boolean, default: true }
+          - label: Истории праздников
+            name: cases
+            widget: list
+            label_singular: историю
+            add_to_top: true
+            summary: "{{fields.label}} — {{fields.title}}"
+            hint: Большие блоки «фото + рассказ». Новую историю добавляйте кнопкой «Добавить».
+            fields:
+              - { label: Повод, name: label, widget: string, required: false, hint: Например «День рождения · два дня» }
+              - { label: Заголовок, name: title, widget: string, hint: *script_hint }
+              - { label: Рассказ, name: text, widget: text, hint: Пустая строка между абзацами — новый абзац. }
+              - *photo
+              - *alt
+              - *focus
+              - { label: Текст кнопки, name: button, widget: string, default: Хочу свою историю }
+              - *message
+
+      # ---------------- ОТЗЫВЫ ----------------
+      - name: reviews
+        label: Отзывы
+        file: content/reviews.json
+        fields:
+          - { label: Заголовок, name: title, widget: string, hint: *script_hint }
+          - label: Отзывы
+            name: items
+            widget: list
+            label_singular: отзыв
+            add_to_top: true
+            summary: "{{fields.name}}: {{fields.text}}"
+            hint: Первый отзыв показывается крупно. Кавычки ставить не нужно.
+            fields:
+              - { label: Текст отзыва, name: text, widget: text }
+              - { label: Имя, name: name, widget: string, hint: "Только имя, без фамилии." }
+
+      # ---------------- КОНТАКТЫ ----------------
+      - name: contacts
+        label: Контакты
+        file: content/contacts.json
+        fields:
+          - { label: Телефон WhatsApp, name: phone, widget: string, hint: "Например +7 977 773-66-47. Меняется во всех кнопках сайта сразу." }
+          - { label: Instagram, name: instagram, widget: string, required: false, hint: "Имя аккаунта без @, например di_magic_moments" }
+          - { label: Сообщение в WhatsApp по умолчанию, name: message, widget: string, hint: С этим текстом открывается чат с большинства кнопок. }
+          - { label: Заголовок блока контактов, name: title, widget: text, hint: 'Перенос строки сохранится. Слова в звёздочках (\*вот так\*) — каллиграфией.' }
+          - { label: Текст, name: text, widget: text, required: false }
+          - *photo
+          - *alt
